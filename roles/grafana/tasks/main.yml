@@ -1,0 +1,14 @@
+- include: grafana.yml
+  tags: [ 'grafana' ]
+- include: telegraf.yml
+  tags: [ 'telegraf', 'grafana' ]
+- include: influxdb.yml
+  tags: [ 'influxdb', 'grafana' ]
+- include: loki.yml
+  tags: [ 'loki', 'grafana' ]
+- include: promtail.yml
+  tags: [ 'promtail', 'grafana' ]
+- include: prometheus.yml
+  tags: [ 'prometheus', 'grafana' ]
+- include: docker.yml
+  tags: [ 'grafana' ]

@@ -1,0 +1,33 @@
+- name: Create user {{ username }}
+  user:
+    name: "{{ username }}"
+    home: /home/{{ username }}
+    shell: /bin/bash
+  become: yes
+
+- name: Ensure all necessary groups are created
+  group:
+    name: "{{ item }}"
+  loop:
+   - docker
+   - samba
+   - "{{ username }}"
+
+- name: Ensure the non-root user "{{ username }}" exists
+  user:
+    name: "{{ username }}"
+    password: "{{ password | password_hash('sha512') }}"
+    groups:
+      - sudo
+      - docker
+      - users
+    append: yes
+    shell: "{{ shell }}"
+    update_password: on_create
+
+- name: Enable passwordless sudo for "{{ username }}"
+  lineinfile:
+    path: /etc/sudoers
+    line: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+    validate: 'visudo -cf %s'
+  become: yes

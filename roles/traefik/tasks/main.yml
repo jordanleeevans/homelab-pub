@@ -1,0 +1,4 @@
+- include_tasks: directories.yml
+  tags: ['traefik', 'directories']
+- include_tasks: configuration.yml
+  tags: ['traefik']

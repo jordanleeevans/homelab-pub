@@ -1,0 +1,7 @@
+arr_stack_user: "{{ username }}"
+arr_stack_group: "{{ username }}"
+arr_stack_subdirectories:
+  - "movies"
+  - "tv"
+  - "books"
+  - "music"

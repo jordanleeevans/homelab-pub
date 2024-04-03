@@ -1,0 +1,25 @@
+- name: Ensure traefik directories exist
+  file:
+    path: "{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+    state: directory
+  loop:
+    - "/home/{{ username }}/traefik"
+    - "/home/{{ username }}/traefik/logs"
+    - "/home/{{ username }}/traefik/data"
+
+- name: Generate traefik.yml file
+  template:
+    src: roles/traefik/templates/traefik.j2
+    dest: /home/{{ username }}/traefik/data/traefik.yml
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Copy secret files
+  copy:
+    src: "roles/traefik/templates/dns_token_secret.txt"
+    dest: "/home/{{ username }}/traefik/data/dns_token_secret.txt"
+    owner: "{{ username }}"
+    group: "{{ username }}"

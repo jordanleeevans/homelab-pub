@@ -1,0 +1,2 @@
+grafana_user: "{{ username }}"
+grafana_group: "{{ username }}"

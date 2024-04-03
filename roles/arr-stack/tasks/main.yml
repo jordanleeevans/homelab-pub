@@ -1,0 +1,7 @@
+- include_tasks: directories.yml
+  tags: [ 'directories' ]
+- include_tasks: torrents.yml
+  tags: [ 'directories' ]
+- include_tasks: arr.yml
+  tags: [ 'prowlarr', 'sonarr', 'radarr', 'directories' ]
+

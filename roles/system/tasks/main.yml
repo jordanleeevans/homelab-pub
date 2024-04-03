@@ -1,0 +1,2 @@
+- include_tasks: user.yml
+- include_tasks: ssh.yml

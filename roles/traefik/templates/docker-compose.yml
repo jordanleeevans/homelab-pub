@@ -1,0 +1,47 @@
+version: '3.5'
+
+services:
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: unless-stopped
+    secrets:
+      - dns_token
+    networks:
+      - proxy
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - CF_DNS_API_TOKEN=/run/secrets/dns_token
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /home/user/traefik/data/traefik.yml:/traefik.yml:ro
+      - /home/user/traefik/data/acme.json:/acme.json
+      - /home/user/traefik/data/config.yml:/config.yml:ro
+      - /home/user/traefik/logs:/var/log/traefik
+    labels:
+      - "traefik.enable=true" # Enable the traefik
+      - "traefik.http.routers.traefik.entrypoints=http" # Set the entry point to http
+      - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.YOUR_DOMAIN.uk`)" # Set the rule to the domain
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=BASIC_AUTH_PASSWORD" # See README.md
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https" # Redirect to https
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https" # Set the header to https
+      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect" # Set the middleware to redirect to https
+      - "traefik.http.routers.traefik-secure.entrypoints=https" # Set the entry point to https
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik-dashboard.YOUR_DOMAIN.uk`)" # Set the rule to the domain
+      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].main=YOUR_DOMAIN.uk" # Set the domain
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.YOUR_DOMAIN.uk" # Set the wildcard domain (subdomains)
+      - "traefik.http.routers.traefik-secure.service=api@internal" # Grafana service
+
+networks: # Attach traefik to proxy network (Pi-Hole etc...)
+  proxy:
+    external: true
+  
+secrets:
+  dns_token:
+    file: ./dns_token_secret.txt

@@ -1,0 +1,17 @@
+- name: Ensure config and data directories exist
+  file:
+    path: "/home/{{ arr_stack_user }}/appdata/{{ item.name }}/{{ item.type }}"
+    state: directory
+    owner: "{{ arr_stack_user }}"
+    group: "{{ arr_stack_group }}"
+    mode: 0775
+  loop:
+    - { name: 'prowlarr', type: 'config' }
+    - { name: 'prowlarr', type: 'data' }
+    - { name: 'sonarr', type: 'config' }
+    - { name: 'sonarr', type: 'data' }
+    - { name: 'radarr', type: 'config' }
+    - { name: 'radarr', type: 'data' }
+    - { name: 'requestrr', type: 'config'}
+    - { name: 'requestrr', type: 'data'}
+  tags: [ 'prowlarr', 'sonarr', 'radarr', 'requestrr', 'directories' ]

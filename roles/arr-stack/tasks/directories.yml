@@ -1,0 +1,27 @@
+- name: Ensure arr-stack directories exist
+  file:
+    path: "/home/{{ arr_stack_user }}/data"
+    state: directory
+    owner: "{{ arr_stack_user }}"
+    group: "{{ arr_stack_group }}"
+    mode: 0775
+  tags: [ 'directories' ]
+
+- name: Ensure arr-stack subdirectories exist
+  file:
+    path: "/home/{{ arr_stack_user }}/data/media/{{ item }}"
+    state: directory
+    owner: "{{ arr_stack_user }}"
+    group: "{{ arr_stack_group }}"
+    mode: 0775
+  loop: "{{ arr_stack_subdirectories }}"
+  tags: [ 'directories' ]
+
+- name: Ensure gluetun config directory exist
+  file:
+    path: "/home/{{ arr_stack_user }}/appdata/gluetun"
+    state: directory
+    owner: "{{ arr_stack_user }}"
+    group: "{{ arr_stack_group }}"
+    mode: 0775
+  tags: [ 'directories' ]

@@ -1,0 +1,28 @@
+- name: Ensure traefik configuration file exists
+  file:
+    path: "/home/{{ username }}/traefik/data/config.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+    state: touch
+
+- name: Ensure acme.json file exists
+  file:
+    path: "/home/{{ username }}/traefik/data/acme.json"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0600
+    state: touch
+
+- name: Create traefik network
+  docker_network:
+    name: traefik
+    state: present
+
+- name: Copy traefik compose file
+  copy:
+    src: "roles/traefik/templates/docker-compose.yml"
+    dest: "/home/{{ username }}/traefik/docker-compose.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755

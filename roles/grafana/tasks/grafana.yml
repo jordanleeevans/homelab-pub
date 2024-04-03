@@ -1,0 +1,17 @@
+- name: Ensure graphana-monitoring directories exist
+  file:
+    path: "/home/{{ grafana_user }}/appdata/grafana-monitoring"
+    state: directory
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+    mode: 0775
+  tags: [ 'directories' ]
+
+- name: Ensure grafana directories exist
+  file:
+    path: "/home/{{ grafana_user }}/appdata/grafana-monitoring/grafana"
+    state: directory
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+    mode: 0775
+  tags: [ 'directories' ]

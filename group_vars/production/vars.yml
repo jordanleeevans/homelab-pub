@@ -1,0 +1,8 @@
+# System
+shell: /bin/bash
+timezone: Europe/London
+username: user
+
+# Docker
+docker_dir: /opt/docker/data
+docker_compose_dir: /opt/docker/compose

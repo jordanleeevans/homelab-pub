@@ -1,0 +1,8 @@
+- name: Ensure promtail directories exist
+  file:
+    path: "/home/{{ grafana_user }}/appdata/grafana-monitoring/promtail"
+    state: directory
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+    mode: 0775
+  tags: [ 'directories' ]

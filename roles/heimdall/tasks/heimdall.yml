@@ -1,0 +1,7 @@
+- name: Ensure Heimdall config directory exists
+  file:
+    path: "/home/{{ heimdall_user }}/appdata/heimdall"
+    state: directory
+    owner: "{{ heimdall_user }}"
+    group: "{{ heimdall_group }}"
+    mode: 0775

@@ -1,0 +1,28 @@
+---
+- hosts: production
+  become: yes
+  vars_files:
+    - group_vars/production/secret.yml
+  handlers:
+    - include: roles/system/handlers/main.yml
+
+  roles:
+    - role: system
+      tags:
+        - system
+    - role: arr-stack
+      tags:
+        - arr-stack
+    - role: media
+      tags:
+        - media
+    - role: traefik
+      tags:
+        - traefik
+    - role: pihole
+      tags:
+        - pihole
+    - role: grafana
+      tags:
+        - grafana
+    

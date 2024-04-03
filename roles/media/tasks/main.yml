@@ -1,0 +1,8 @@
+- name: Ensure jellyfin config directories exist
+  file:
+    path: "/home/{{ arr_stack_user }}/appdata/jellyfin"
+    state: directory
+    owner: "{{ arr_stack_user }}"
+    group: "{{ arr_stack_group }}"
+    mode: 0775
+  tags: [ 'jellyfin', 'directories' ]

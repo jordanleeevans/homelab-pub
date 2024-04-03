@@ -1,0 +1,14 @@
+services:
+  heimdall:
+      image: linuxserver/heimdall
+      container_name: heimdall
+      volumes:
+        - /home/user/heimdall:/config
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Europe/London
+      ports:
+        - 443:443
+        - 80:80
+      restart: unless-stopped

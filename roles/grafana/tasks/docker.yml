@@ -1,0 +1,7 @@
+- name: Sync docker-compose file
+  template:
+    src: roles/grafana/templates/docker-compose.yml
+    dest: "/home/{{ grafana_user }}/appdata/grafana-monitoring/docker-compose.yml"
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+    mode: 0644

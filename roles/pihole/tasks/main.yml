@@ -1,0 +1,43 @@
+- name: Ensure Pi-hole config directory exists
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /home/user/pihole
+    - /home/user/appdata/pihole
+    - /home/user/appdata/pihole/config
+    - /home/user/appdata/pihole/dnsmasq.d
+
+- name: Copy docker-compose file
+  copy:
+    src: "roles/pihole/tasks/docker-compose.yml"
+    dest: "/home/user/pihole/docker-compose.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+
+- name: Find secret files in compose root
+  find:
+    paths: "roles/pihole/tasks"
+    patterns: "*secret*"
+  register: secret_files
+
+- name: Copy the found files to the Docker Compose directory
+  copy:
+    src: "{{ item.path }}"
+    dest: "/home/user/pihole"
+  with_items: "{{ secret_files.files }}"
+
+- name: Stop host DNS service
+  systemd:
+    name: systemd-resolved
+    state: stopped
+    enabled: no
+  become: yes
+
+- name: Set nameserver to 8.8.8.8
+  copy:
+    dest: /etc/resolv.conf
+    content: 'nameserver 8.8.8.8'
+    force: no
+  become: yes
