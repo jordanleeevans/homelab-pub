@@ -2,7 +2,7 @@
 
 This project is a publicised version of my personal homelab setup. It **will not** work out of the box, and is largely intended as a starting point. The necessary files and/or variables have been redacted. It is up to the user to fill in the necessary information to get the project working.
 
-It uses traefik as a reverse proxy to route traffic to different services running on the server. The traefik container is configured to use cloudflare as a DNS provider and to automatically generate SSL certificates for the services running on the server. Cloudflare tunnels are used to pull the SSL certificates from cloudflare to the server without exposing the server to the internet.
+It uses traefik as a reverse proxy to route traffic to different services running on the server. The traefik container offers a DNS challenge to automatically generate SSL certificates for the services. The services are deployed using docker-compose and are managed using ansible. The services are deployed to a single server running Ubuntu 20.04.
 
 | Service | Description |
 | --- | --- |
